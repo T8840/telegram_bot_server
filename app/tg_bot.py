@@ -11,6 +11,7 @@ import logging
 import requests
 
 from telegram import __version__ as TG_VER
+from supabase import create_client, Client
 
 try:
     from telegram import __version_info__
@@ -42,7 +43,15 @@ from telegram.ext import (
     filters,
 )
 
-from chat_knowledge_bot.database import db_init
+url: str = "https://nytkabvchpxcdysrbdfq.supabase.co"
+key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55dGthYnZjaHB4Y2R5c3JiZGZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODY4NzIwMDUsImV4cCI6MjAwMjQ0ODAwNX0.PtzpKaaUN8-K3iUASBS0K5qb9KHy79_-u4itBXX_8hY"
+TOKEN = "6225524887:AAGrLG5b1Ucs7XtyfRhPiIEqT0WlTo7R4Cw"
+
+def db_init():
+    supabase: Client = create_client(url, key)
+
+    return supabase
+
 db = db_init()
 
 # Enable logging
@@ -287,9 +296,6 @@ async def chat(update: Update, context):
 async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Display a help message"""
     await update.message.reply_text("Use /quiz, /poll or /preview to test this bot.")
-
-TOKEN = "6225524887:AAGrLG5b1Ucs7XtyfRhPiIEqT0WlTo7R4Cw"
-
 
 
 
